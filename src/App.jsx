@@ -55,15 +55,19 @@ function App() {
 
         </div>
 
-        {photos.map(photo => (
-            <div key={photo.id} className="m-4" align={'left'}>
-                <img src={photo.filename} alt={photo.alt}/>
+        <div className="images">
+            {photos.map(photo => (
+                <div key={photo.id} className="m-4" align={'left'}>
+                    <img src={photo.filename} alt={photo.alt}/>
 
-                <h4>Liczba pobrań: {photo.downloads} </h4>
+                    <h4>Liczba pobrań: {photo.downloads} </h4>
 
-                <button type="button" className="btn btn-success">Pobierz</button>
-            </div>
-        )) }
+                    <button type="button" className="btn btn-success">Pobierz</button>
+                </div>
+            )) }
+
+        </div>
+
 
     </>
   )

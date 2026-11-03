@@ -198,3 +198,8 @@ button{
   padding: 5px;
   border-radius: 5%;
 }
+
+.images{
+  display: flex;
+  flex-wrap: wrap;
+}
