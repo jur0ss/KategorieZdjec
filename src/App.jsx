@@ -15,9 +15,12 @@ import obraz11 from "./assets/obraz11.jpg"
 import obraz12 from "./assets/obraz12.jpg"
 
 function App() {
-  const [count, setCount] = useState(0)
 
-    const photos = [
+    const [kwiaty, setKwiaty] = useState(true);
+    const [zwierzeta, setZwierzeta] = useState(true);
+    const [samochody, setSamochody] = useState(true);
+
+    const [photos, setPhotos] = useState( [
         {id: 0, alt: "Mak", filename: obraz1, category: 1, downloads: 35},
         {id: 1, alt: "Bukiet", filename: obraz2, category: 1, downloads: 43},
         {id: 2, alt: "Dalmatyńczyk", filename: obraz3, category: 2, downloads: 2},
@@ -30,7 +33,16 @@ function App() {
         {id: 9, alt: "Foksterier", filename: obraz10, category: 2, downloads: 22},
         {id: 10, alt: "Szczeniak", filename: obraz11, category: 2, downloads: 12},
         {id: 11, alt: "Garbus", filename: obraz12, category: 3, downloads: 321}
-    ];
+    ]);
+
+    const handleDownload = (id) => {
+        setPhotos(photos.map(photo => {
+            if (photo.id === id) {
+                return { ...photo, downloads: photo.downloads + 1 };
+            }
+            return photo;
+        }));
+    };
 
   return (
     <>
@@ -40,32 +52,41 @@ function App() {
 
             <div className="switches">
                 <div className="form-check form-switch m-2">
-                    <input className="form-check-input" type="checkbox" id="ctrId"/>
+                    <input className="form-check-input" type="checkbox" id="ctrId" checked={kwiaty}
+                           onChange={(e) => setKwiaty(e.target.checked)} />
                     <label className="form-check-label" htmlFor="ctrId">Kwiaty</label>
                 </div>
                 <div className="form-check form-switch m-2">
-                    <input className="form-check-input" type="checkbox" id=" ctrId2"/>
+                    <input className="form-check-input" type="checkbox" id="ctrId2" checked={zwierzeta}
+                           onChange={(e) => setZwierzeta(e.target.checked)} />
                     <label className="form-check-label" htmlFor=" ctrId2">Zwierzęta</label>
                 </div>
                 <div className="form-check form-switch m-2">
-                    <input className="form-check-input" type="checkbox" id=" ctrId2"/>
-                    <label className="form-check-label" htmlFor=" ctrId2">Samochody</label>
+                    <input className="form-check-input" type="checkbox" id="ctrId2" checked={samochody}
+                           onChange={(e) => setSamochody(e.target.checked)} />
+                    <label className="form-check-label" htmlFor=" ctrId3">Samochody</label>
                 </div>
             </div>
 
         </div>
 
         <div className="images">
-            {photos.map(photo => (
-                <div key={photo.id} className="m-4" align={'left'}>
-                    <img src={photo.filename} alt={photo.alt}/>
+            {photos
+                .filter(photo =>
+                    (photo.category === 1 && kwiaty === true) ||
+                    (photo.category === 2 && zwierzeta === true) ||
+                    (photo.category === 3 && samochody === true)
+                )
+                .map(photo => (
+                    <div key={photo.id} className="m-4" align={'left'}>
+                        <img src={photo.filename} alt={photo.alt}/>
 
-                    <h4>Liczba pobrań: {photo.downloads} </h4>
+                        <h4>Liczba pobrań: {photo.downloads} </h4>
 
-                    <button type="button" className="btn btn-success">Pobierz</button>
-                </div>
-            )) }
-
+                        <button type="button" className="btn btn-success" onClick={() => handleDownload(photo.id)}>Pobierz</button>
+                    </div>
+                ))
+            }
         </div>
 
 
